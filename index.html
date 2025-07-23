@@ -157,14 +157,11 @@
                       </button>
                     </td>
 
-                    {Object.values(row).map((cell, cellIndex) => (
-                      <td
-                        key={cellIndex}
-                        className="py-3 px-4 whitespace-nowrap text-sm text-gray-800 border-b border-gray-200"
-                      >
-                        {cell}
-                      </td>
-                    ))}
+                    {/* Aquí muestro los datos en orden fijo */}
+                    <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-800 border-b border-gray-200">{row.email}</td>
+                    <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-800 border-b border-gray-200">{row.name}</td>
+                    <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-800 border-b border-gray-200">{row.nationality}</td>
+                    <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-800 border-b border-gray-200">{row.identity}</td>
 
                     <td className="py-3 px-3 whitespace-nowrap text-center">
                       <button
@@ -229,7 +226,7 @@
         // Cargar datos en tiempo real desde Firestore
         useEffect(() => {
           const unsubscribe = db.collection('users').onSnapshot(snapshot => {
-            const datos = snapshot.docs.map(doc => doc.data());
+            const datos = snapshot.docs.map(doc => ({ ...doc.data(), identity: doc.id }));
             setSubmittedData(datos);
           });
           return () => unsubscribe();
